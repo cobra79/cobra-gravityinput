@@ -1,0 +1,137 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../cobra-gravity/cobra-gravity.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../neon-animation/web-animations.html">
+<link rel="import" href="../paper-material/paper-material.html">
+
+<dom-module id="cobra-gravityinput">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .flexcontainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 50px;
+      }
+
+      paper-material {
+        padding: 0px 5px 5px 5px;
+        margin: 5px;
+
+      }
+    </style>
+
+
+
+    <paper-material>
+      <div class="flexcontainer">
+        <paper-input label="gravity" value="{{inputVal}}"></paper-input>
+        <paper-dropdown-menu label="Unit" value="{{unit}}">
+          <paper-listbox slot="dropdown-content" selected="{{defaultUnit}}">
+            <paper-item>Plato</paper-item>
+            <paper-item>Brix</paper-item>
+            <paper-item>Density</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+        <cobra-gravity
+                id="gravityCalulator"
+                plato-out="{{platoOut}}"
+        ></cobra-gravity>
+      </div>
+    </paper-material>
+  </template>
+
+  <script>
+    /**
+     * `cobra-gravityinput`
+     * Input element for gravity of craft-beer
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class CobraGravityinput extends Polymer.Element {
+      static get is() { return 'cobra-gravityinput'; }
+      static get properties() {
+        return {
+          inputVal: {
+            type: Number,
+              notify: true,
+              observer:"inputValChanged"
+          },
+          unit: {
+              type:String,
+              notify: true,
+              reflectToAttribute: true,
+              observer:"unitChanged"
+          },
+            defaultUnit:{
+              type:Number
+            },
+            dirty:
+                {
+                    type:Boolean,
+                    value:false
+                }
+
+        };
+      }
+      inputValChanged(newVal, oldVal)
+      {
+          if(this.dirty === false)
+          {
+              switch(this.unit)
+              {
+                  case 'Plato':
+                      this.$.gravityCalulator.platoIn = newVal;
+                      break;
+                  case 'Brix':
+                      this.$.gravityCalulator.brixIn = newVal;
+                      break;
+                  case 'Density':
+                      this.$.gravityCalulator.densityIn = newVal;
+                      break;
+              }
+          }
+          else
+          {
+              this.dirty = false;
+          }
+
+      }
+      unitChanged(newVal, oldVal)
+      {
+          console.log('Unit changed from  ', oldVal, ' to ', newVal);
+          switch(newVal)
+          {
+              case 'Plato':
+                  console.log('Plato');
+                  this.dirty = true;
+                  this.inputVal = this.$.gravityCalulator.platoOut;
+                  break;
+              case 'Brix':
+                  console.log('Brix');
+                  this.dirty = true;
+                  this.inputVal = this.$.gravityCalulator.brixOut;
+                  break;
+              case 'Density':
+                  console.log('Density');
+                  this.dirty = true;
+                 this.inputVal = this.$.gravityCalulator.densityOut;
+                  break;
+          }
+
+      }
+    }
+
+    window.customElements.define(CobraGravityinput.is, CobraGravityinput);
+  </script>
+</dom-module>

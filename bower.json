@@ -1,0 +1,24 @@
+{
+  "name": "cobra-gravityinput",
+  "description": "Input element for gravity of craft-beer",
+  "main": "cobra-gravityinput.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "cobra-gravity": "^2.0.0",
+    "paper-input": "^2.2.0",
+    "paper-dropdown-menu": "^2.1.0",
+    "paper-listbox": "^2.1.0",
+    "paper-item": "^2.1.0",
+    "neon-animation": "^2.2.1",
+    "web-animations-js": "^2.3.1",
+    "paper-material": "^2.1.0"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  }
+}
